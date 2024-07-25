@@ -2,10 +2,12 @@ package com.project.questapp.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "user")
 @Data
+@ToString
 public class User {
 
     @Id
