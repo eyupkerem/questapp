@@ -5,31 +5,41 @@ import com.project.questapp.entities.Post;
 import com.project.questapp.entities.User;
 import com.project.questapp.repository.LikeRepository;
 import com.project.questapp.requests.LikeSaveRequest;
+import com.project.questapp.response.LikeResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class LikeService {
 
-    private final LikeRepository likeRepository;
-    private final UserService userService;
-    private final PostService postService;
 
-    public List<Like> getAllLikes(Optional<Long> userId, Optional<Long> postId) {
+    @Autowired
+    private  LikeRepository likeRepository;
+    @Autowired
+    private  UserService userService;
+    @Lazy
+    @Autowired
+    private  PostService postService;
+
+    public List<LikeResponse> getAllLikes(Optional<Long> userId, Optional<Long> postId) {
+        List<Like> list=null;
         if (userId.isPresent() && postId.isPresent()){
-            return likeRepository.findByUserIdAndPostId(userId.get(),postId.get());
+            list = likeRepository.findByUserIdAndPostId(userId.get(),postId.get());
         }
         else if(userId.isPresent()){
-            return likeRepository.findByUserId(userId);
+            list =  likeRepository.findByUserId(userId);
         }
         else if (postId.isPresent()){
-            return likeRepository.findByPostId(postId);
+            list =  likeRepository.findByPostId(postId);
         }
-        return likeRepository.findAll();
+        return list.stream().map(like -> new LikeResponse(like)).collect(Collectors.toList());
     }
 
     public Like getById(Long likeId) {

@@ -2,6 +2,7 @@ package com.project.questapp.controller;
 
 import com.project.questapp.entities.Like;
 import com.project.questapp.requests.LikeSaveRequest;
+import com.project.questapp.response.LikeResponse;
 import com.project.questapp.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,8 @@ public class LikeController {
     private final LikeService likeService;
 
     @GetMapping
-    public List<Like> getAll(@RequestParam Optional<Long> userId ,
-                             @RequestParam Optional<Long> postId){
+    public List<LikeResponse> getAll(@RequestParam Optional<Long> userId ,
+                                     @RequestParam Optional<Long> postId){
         return likeService.getAllLikes(userId,postId);
     }
 

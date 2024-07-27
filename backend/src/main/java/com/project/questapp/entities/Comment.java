@@ -16,13 +16,11 @@ public class Comment {
     @Column(name = "id")
     private Long id;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Post post ;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
@@ -30,9 +28,7 @@ public class Comment {
     @JsonIgnore
     private User user;
 
-
     @Lob
     @Column(name = "text" , columnDefinition = "text")
     private String text;
-
 }

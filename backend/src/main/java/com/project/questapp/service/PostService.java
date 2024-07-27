@@ -1,29 +1,46 @@
 package com.project.questapp.service;
 
+import com.project.questapp.entities.Like;
 import com.project.questapp.entities.Post;
 import com.project.questapp.entities.User;
+import com.project.questapp.repository.LikeRepository;
 import com.project.questapp.repository.PostRepository;
 import com.project.questapp.requests.PostSaveRequest;
 import com.project.questapp.requests.PostUpdateRequest;
+import com.project.questapp.response.LikeResponse;
+import com.project.questapp.response.PostResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-@RequiredArgsConstructor
+import java.util.stream.Collectors;
+
 @Service
 public class PostService {
+    @Autowired
+    private PostRepository postRepository;
 
-    private final PostRepository postRepository;
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    public List<Post> getAll(Optional<Long> userId) {
-        if (userId.isPresent()){
-            return postRepository.findByUserId(userId);
-        }
-        return postRepository.findAll();
+    @Autowired
+    @Lazy
+    private LikeService likeService;
+
+    public List<PostResponse> getAll(Optional<Long> userId) {
+        List<Post> list;
+        if(userId.isPresent()) {
+            list = postRepository.findByUserId(userId);
+        }else
+            list = postRepository.findAll();
+        return list.stream().map(p -> {
+            List<LikeResponse> likes = likeService.getAllLikes(Optional.ofNullable(null), Optional.of(p.getId()));
+            return new PostResponse(p, likes);}).collect(Collectors.toList());
     }
-
     public Post findById(Long postId) {
        return postRepository.findById(postId).orElse(null);
     }
@@ -58,9 +75,6 @@ public class PostService {
             return toUpdate;
         }
         return null;
-
-
-
     }
 
     public void deletePost(Long postId) {

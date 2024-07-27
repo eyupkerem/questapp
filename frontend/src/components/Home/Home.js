@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Post from '../Post/Post';
+import PostForm from '../Post/PostForm';
 import { Container, Box, Typography } from '@mui/material';
 
 const Home = () => {
@@ -7,8 +8,8 @@ const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [postList, setPostList] = useState([]);
 
-  useEffect(() => {
-    fetch("/posts")
+  const refreshPost=()=>{
+        fetch("/posts")
       .then(res => res.json())
       .then(
         (result) => {
@@ -20,7 +21,12 @@ const Home = () => {
           setError(error);
         }
       );
-  }, []);
+  }
+
+  useEffect(() => {
+    refreshPost();
+  }, [postList]);
+
 
   if (!isLoaded) {
     return (
@@ -42,12 +48,23 @@ const Home = () => {
           flexWrap: 'wrap',
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: '#cfe8fc',
-          height: '100vh',
+          backgroundColor: '#f0f5ff',
+          height:'100vh'
         }}
       >
+        <PostForm 
+        key={2} 
+        userId={1} 
+        userName={"asdjkf"}
+        refreshPost={refreshPost}/>
         {postList.map(post => (
-          <Post key={post.id} title={post.title} text={post.text} />
+          <Post key={post.id} 
+          postId={post.id}
+          likes={post.postLikes}
+          userId={post.userId} 
+          title={post.title} 
+          text={post.text} 
+          userName={post.userName}/>
         ))}
       </Container>
     );
