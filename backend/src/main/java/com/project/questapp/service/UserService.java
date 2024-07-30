@@ -2,6 +2,7 @@ package com.project.questapp.service;
 
 import com.project.questapp.entities.User;
 import com.project.questapp.repository.UserRepository;
+import com.project.questapp.requests.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,6 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -42,5 +42,9 @@ public class UserService {
 
     public void deleteById(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    public User getOneUserByUserName(String username) {
+        return userRepository.findByUserName(username);
     }
 }

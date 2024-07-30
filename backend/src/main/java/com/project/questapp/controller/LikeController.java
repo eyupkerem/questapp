@@ -23,7 +23,6 @@ public class LikeController {
                                      @RequestParam Optional<Long> postId){
         return likeService.getAllLikes(userId,postId);
     }
-
     @GetMapping("/{likeId}")
     public Like getLike(@PathVariable Long likeId){
         return likeService.getById(likeId);
@@ -38,10 +37,4 @@ public class LikeController {
         public void deleteLike(@PathVariable Long likeId){
         likeService.deleteById(likeId);
         }
-
-
-
-
-
-
 }

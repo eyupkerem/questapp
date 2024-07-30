@@ -12,9 +12,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
-
     @GetMapping()
     public List<User> getAll(){
         return userService.getAllUsers();
@@ -32,15 +30,10 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public User updateUser(@PathVariable Long userId , @RequestBody User user){
-
         return userService.updateUser(userId,user);
-
     }
-
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable Long userId){
         userService.deleteById(userId);
     }
-
-
 }

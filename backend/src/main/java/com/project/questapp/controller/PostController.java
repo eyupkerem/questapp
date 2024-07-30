@@ -20,6 +20,7 @@ public class PostController {
 
     @GetMapping
     public List<PostResponse> getAll(@RequestParam Optional<Long> userId){
+
         return postService.getAll(userId);
     }
 

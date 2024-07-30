@@ -1,20 +1,15 @@
 package com.project.questapp.service;
 
-import com.project.questapp.entities.Like;
 import com.project.questapp.entities.Post;
 import com.project.questapp.entities.User;
-import com.project.questapp.repository.LikeRepository;
 import com.project.questapp.repository.PostRepository;
 import com.project.questapp.requests.PostSaveRequest;
 import com.project.questapp.requests.PostUpdateRequest;
 import com.project.questapp.response.LikeResponse;
 import com.project.questapp.response.PostResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,10 +18,8 @@ import java.util.stream.Collectors;
 public class PostService {
     @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     @Lazy
     private LikeService likeService;
@@ -58,13 +51,9 @@ public class PostService {
         toSave.setTitle(request.getTitle());
         toSave.setUser(foundUser);
 
-
         return postRepository.save(toSave);
-
     }
-
     public Post updatePost(Long postId, PostUpdateRequest updateRequest) {
-
         Optional<Post> tempPost = postRepository.findById(postId);
 
         if(tempPost.isPresent()){
@@ -76,7 +65,6 @@ public class PostService {
         }
         return null;
     }
-
     public void deletePost(Long postId) {
         postRepository.deleteById(postId);
     }

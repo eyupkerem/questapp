@@ -6,18 +6,14 @@ import com.project.questapp.entities.User;
 import com.project.questapp.repository.CommentRepository;
 import com.project.questapp.requests.CommentSaveRequest;
 import com.project.questapp.requests.CommentUpdateRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Slf4j
 public class CommentService {
 
     @Autowired
@@ -27,7 +23,6 @@ public class CommentService {
     @Autowired
     @Lazy
     private   PostService postService;
-
 
     public List<Comment> getAllComments(Optional<Long> userId,Optional<Long> postId) {
 

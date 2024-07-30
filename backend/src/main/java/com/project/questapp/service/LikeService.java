@@ -6,19 +6,15 @@ import com.project.questapp.entities.User;
 import com.project.questapp.repository.LikeRepository;
 import com.project.questapp.requests.LikeSaveRequest;
 import com.project.questapp.response.LikeResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class LikeService {
-
 
     @Autowired
     private  LikeRepository likeRepository;
@@ -38,6 +34,9 @@ public class LikeService {
         }
         else if (postId.isPresent()){
             list =  likeRepository.findByPostId(postId);
+        }
+        else{
+            list = likeRepository.findAll();
         }
         return list.stream().map(like -> new LikeResponse(like)).collect(Collectors.toList());
     }

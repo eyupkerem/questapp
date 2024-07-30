@@ -17,12 +17,10 @@ import java.util.Optional;
 public class CommentController {
 
     private final CommentService commentService;
-
     @GetMapping
     public List<Comment> getAll(@RequestParam Optional<Long> userId , @RequestParam Optional<Long> postId){
         return commentService.getAllComments(userId, postId);
     }
-
     @GetMapping("/{commentId}")
     public Comment getComment(@PathVariable Long commentId){
         return commentService.getById(commentId);
@@ -42,5 +40,4 @@ public class CommentController {
     public void deleteComment(@PathVariable Long commentId){
         commentService.deleteById(commentId);
     }
-
 }
